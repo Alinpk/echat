@@ -3,7 +3,6 @@ package intf
 // this file provide logical operation for model
 import (
 	"serv/utils/db"
-	"serv/utils/log"
 )
 
 //------------------user--------------------
@@ -19,7 +18,7 @@ func CheckUserAndPwd(user, pwd string) (bool, error) {
 
 
 func RegisterUser(user, pwd string) (bool, error) {
-	return HPutIfNotExisted(USER_TABLE, user, pwd)
+	return rdb.HPutIfNotExisted(USER_TABLE, user, pwd)
 }
 
 //------------------grp--------------------
@@ -33,5 +32,9 @@ func genGrpFileName(groupName string) string {
 }
 
 func NewGroup(groupName string) (bool, error) {
-	return HPutIfNotExisted(GROUP_TABLE, groupName, genGrpFileName(groupName))
+	return rdb.HPutIfNotExisted(GROUP_TABLE, groupName, genGrpFileName(groupName))
+}
+
+func CheckGroup(groupName string) (bool, error) {
+	return rdb.HComapre(GROUP_TABLE, groupName, genGrpFileName(groupName))
 }

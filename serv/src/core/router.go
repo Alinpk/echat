@@ -50,6 +50,7 @@ func (s *Server) Start() {
 			RcvBuf : make(chan(*proto.Message), 10),
 			Ctx : ctx,
 			CancelFunc : cancel,
+			Groups : make(map[string](*Group)),
 		}
 		go func() {
 			defer func() {

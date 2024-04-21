@@ -19,7 +19,7 @@ const (
 
 // definition of response code
 // refer to http resp code
-type RespCode
+type RespCode int
 const (
 	BAD_REQUEST = 400
 	UNAUTHORIZED = 401
@@ -82,9 +82,9 @@ type PrivateMessage struct {
 
 // option suppose by control msg
 const (
-	CREATE_ROOM = "create_room"
-	JOIN_ROOM = "join_room"
-	QUIT_ROOM = "quit_room"
+	CREATE_GROUP = "create_group"
+	JOIN_GROUP = "join_group"
+	QUIT_GROUP = "quit_group"
 )
 type ControlMessage struct {
 	Type string

@@ -9,7 +9,8 @@ import (
 	"serv/core/intf"
 )
 
-
+// key = userName, value = *Group
+var Users sync.Map
 
 type User struct {
 	// base info
@@ -30,12 +31,21 @@ type User struct {
 	RcvBuf chan *proto.Message // receiver has responsible for this resource
 
 	Ctx context.Context
-	CancelFunc context.CancelFunc 
+	CancelFunc context.CancelFunc
+
+	// no concurrency situation
+	Groups map[string]*Group
 }
 
 func (u *User) Quit() {
 	u.CancelFunc() 
 	u.Conn.Close() // make receiver quit
+	if u.Certified {
+		Users.Delete(u.UserName)
+		for _, g := range u.Groups {
+			g.QuitGroup(u)
+		}
+	}
 }
 
 // net.Conn's Read & Write operation can only happen in this func
@@ -115,16 +125,16 @@ func (u *User) Dispatch(msg *proto.Message) {
 		}
 	}()
 	switch msg.Type {
-	case REGISTER:
+	case proto.REGISTER:
 		u.Register(msg.Data.(*proto.RegisterMessage))
-	case LOGIN:
-		u.Register(msg.Data.(*proto.LoginMessage))
-	case CONTROL:
+	case proto.LOGIN:
+		u.Login(msg.Data.(*proto.LoginMessage))
+	case proto.CONTROL:
 		u.Control(msg.Data.(*proto.ControlMessage))
-	case GROUP:
+	case proto.GROUP:
 		u.Group(msg.Data.(*proto.GroupMessage))
-	case PRIVATE:
-		u.Group(msg.Data.(*proto.PrivateMessage))
+	case proto.PRIVATE:
+		u.Private(msg.Data.(*proto.PrivateMessage))
 	// server not support response
 	default:
 		log.L.Warn("get an unrecognized message")
@@ -161,7 +171,7 @@ func (u *User) Login(in *proto.LoginMessage) {
 		u.Write(BuildResponse(proto.LOGIN, proto.FORBIDDEN, "logout first"))
 		return
 	}
-
+	// maybe query userName from users to check is this user already login is more effective
 	ret, err := intf.CheckUserAndPwd(in.UserName, in.PassWord)
 	if err != nil {
 		log.L.Warn("login failed", "error", err.Error())
@@ -169,11 +179,17 @@ func (u *User) Login(in *proto.LoginMessage) {
 		return
 	}
 	if ret {
-		log.L.Debug("login success", "user", in.UserName)
-		u.Write(BuildResponse(proto.LOGIN, proto.OK, ""))
-		u.Certified = true
-		u.UserName = in.UserName
-		u.PassWord = in.PassWord
+		if _, loaded := Users.LoadOrStore(in.UserName, u); !loaded {
+			log.L.Debug("login success", "user", in.UserName)
+			u.Write(BuildResponse(proto.LOGIN, proto.OK, ""))
+			u.Certified = true
+			u.UserName = in.UserName
+			u.PassWord = in.PassWord
+		} else {
+			log.L.Debug("reject : already login,", "user", in.UserName)
+			u.Write(BuildResponse(proto.LOGIN, proto.FORBIDDEN, "someone else has login"))
+		}
+
 	} else {
 		log.L.Info("login failed", "user", in.UserName)
 		u.Write(BuildResponse(proto.LOGIN, proto.FORBIDDEN, "user existed"))
@@ -187,10 +203,51 @@ func (u *User) Control(in *proto.ControlMessage) {
 		return
 	}
 	switch in.Type {
-	case CREATE_ROOM:
-		intf.C
-	case  JOIN_ROOM:
-	case QUIT_ROOM:
+	case proto.CREATE_GROUP:
+		ok, err := intf.NewGroup(in.TargetName)
+		if err != nil {
+			log.L.Warn("new group failed:", "error", err.Error())
+			u.Write(BuildResponse(proto.CONTROL, proto.INTERNAL_ERR, ""))
+			return
+		}
+		if ok {
+			u.Write(BuildResponse(proto.CONTROL, proto.OK, ""))
+		} else {
+			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, ""))
+		}
+	case  proto.JOIN_GROUP:
+		existed, err := intf.CheckGroup(in.TargetName)
+		if err != nil {
+			log.L.Warn("new group failed:", "error", err.Error())
+			u.Write(BuildResponse(proto.CONTROL, proto.INTERNAL_ERR, ""))
+			return
+		}
+		if !existed {
+			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "group not existed"))
+			return
+		}
+		g := &Group{
+			Name : in.TargetName,
+			UsersList : make([]*User, 0),
+			History : make([]string, 0),
+		}
+		actual, _ := Groups.LoadOrStore(in.TargetName, g)
+		
+		g = actual.(*Group)
+		if ok := g.AddUser(u); ok {
+			u.Write(BuildResponse(proto.CONTROL, proto.OK, ""))
+		} else {
+			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "group is full"))
+		}
+	case proto.QUIT_GROUP:
+		g, ok := u.Groups[in.TargetName]
+		if !ok {
+			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "you are not in the group"))
+		} else {
+			delete(u.Groups, in.TargetName)
+			g.QuitGroup(u)
+			u.Write(BuildResponse(proto.CONTROL, proto.OK, "quit success"))
+		}
 	}
 }
 
@@ -200,16 +257,23 @@ func (u *User) Group(in *proto.GroupMessage) {
 		u.Write(BuildResponse(proto.GROUP, proto.FORBIDDEN, "login first"))
 		return
 	}
-
+	g, ok := u.Groups[in.GroupName]
+	if !ok {
+		log.L.Debug("Group is not founded")
+		u.Write(BuildResponse(proto.GROUP, proto.NOT_FOUND, "you haven't join the group"))
+		return
+	}
+	g.SpeakInGroup(u.UserName, in.Content)
+	u.Write(BuildResponse(proto.GROUP, proto.OK, ""))
 }
 
 //TODO unrealize
 func (u *User) Private(in *proto.PrivateMessage) {}
 
 
-func BuildResponse(type proto.MsgType, code proto.RespCode, info string) []byte {
-	ret, err := proto.EncodeMsg(ResponseMessage{
-		Type : type,
+func BuildResponse(t proto.MsgType, code proto.RespCode, info string) []byte {
+	ret, err := proto.EncodeMsg(proto.ResponseMessage{
+		Type : t,
 		Code : code,
 		Info : info,
 	})
