@@ -31,8 +31,7 @@ func (g *Group) SpeakInGroup(user, msg string) {
 		msg,
 		"\n",
 	}, "")
-	sli := GetSlice(gmsg)
-	g.Write(sli)
+	g.Write(BuildGroupMsg(g.Name, gmsg))
 }
 
 func (g *Group) Write(m []byte) {
@@ -51,7 +50,7 @@ func (g *Group) QuitGroup(user *User) {
 		time.Now().Format("2006-01-02 15:04:05"),
 		"\n",
 	}, "")
-	g.Write(GetSlice(gmsg))
+	g.Write(BuildGroupMsg(g.Name, gmsg))
 }
 
 func (g *Group) DeleteUser(user *User) {
@@ -77,7 +76,8 @@ func (g *Group) AddUser(user *User) bool {
 			time.Now().Format("2006-01-02 15:04:05"),
 			"\n",
 		}, "")
-		g.Write(GetSlice(gmsg))
+		
+		g.Write(BuildGroupMsg(g.Name, gmsg))
 		return true
 	}
 	return false

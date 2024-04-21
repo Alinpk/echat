@@ -1,3 +1,113 @@
-time=2024-04-20T18:33:29.635+08:00 level=INFO msg="server starting" addr=:9999
-time=2024-04-21T17:05:43.818+08:00 level=INFO msg="server starting" addr=:9999
-time=2024-04-21T17:53:12.627+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T20:07:30.122+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T20:07:38.065+08:00 level=INFO msg="new connection" addr=127.0.0.1:53112 active=1
+time=2024-04-21T20:07:42.188+08:00 level=INFO msg="new connection" addr=127.0.0.1:53128 active=2
+time=2024-04-21T20:07:46.563+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T20:07:58.006+08:00 level=DEBUG msg="reject : already login," user=alan
+time=2024-04-21T20:08:08.313+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T20:08:28.894+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrp
+time=2024-04-21T20:08:42.164+08:00 level=DEBUG msg="control msg" user=jack ctl_type=join_group Target=mygrp
+time=2024-04-21T20:15:38.833+08:00 level=WARN msg="Read msg failed" detail=EOF addr=127.0.0.1:53128
+time=2024-04-21T20:15:38.834+08:00 level=INFO msg="connection break" addr=127.0.0.1:53128 active=1
+time=2024-04-21T20:15:55.553+08:00 level=INFO msg="new connection" addr=127.0.0.1:33388 active=2
+time=2024-04-21T20:16:06.055+08:00 level=DEBUG msg="control msg" user="" ctl_type=join_group Target=mygrp
+time=2024-04-21T20:16:14.691+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T20:16:31.164+08:00 level=DEBUG msg="control msg" user=jack ctl_type=join_group Target=mygrp
+time=2024-04-21T20:18:10.196+08:00 level=WARN msg="Read msg failed" detail=EOF addr=127.0.0.1:33388
+time=2024-04-21T20:18:10.196+08:00 level=INFO msg="connection break" addr=127.0.0.1:33388 active=1
+time=2024-04-21T20:18:13.645+08:00 level=INFO msg="new connection" addr=127.0.0.1:52710 active=2
+time=2024-04-21T20:18:19.036+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T20:18:30.781+08:00 level=DEBUG msg="control msg" user=jack ctl_type=join_group Target=mygrp
+time=2024-04-21T20:20:58.674+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T20:21:05.523+08:00 level=INFO msg="new connection" addr=127.0.0.1:39772 active=1
+time=2024-04-21T20:21:09.865+08:00 level=INFO msg="new connection" addr=127.0.0.1:46962 active=2
+time=2024-04-21T20:21:17.074+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T20:21:27.802+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T20:21:39.771+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrp
+time=2024-04-21T20:25:58.600+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T20:27:40.989+08:00 level=INFO msg="new connection" addr=127.0.0.1:49532 active=1
+time=2024-04-21T20:27:45.723+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T20:27:45.723+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T20:28:17.369+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrps
+time=2024-04-21T20:28:17.370+08:00 level=DEBUG msg=stream: buf="\x001\x05{\"Type\":2,\"Code\":403,\"Info\":\"group not existed\"}"
+time=2024-04-21T20:28:34.608+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrp
+time=2024-04-21T20:28:34.609+08:00 level=DEBUG msg=stream: buf="alan join 2024-04-21 20:28:34\n"
+time=2024-04-21T20:28:34.609+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T20:44:30.930+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T20:44:48.326+08:00 level=INFO msg="new connection" addr=127.0.0.1:34000 active=1
+time=2024-04-21T20:46:49.850+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T20:46:49.850+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T20:48:52.636+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=m
+time=2024-04-21T20:48:52.637+08:00 level=DEBUG msg=stream: buf="\x001\x05{\"Type\":2,\"Code\":403,\"Info\":\"group not existed\"}"
+time=2024-04-21T20:56:14.368+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=""
+time=2024-04-21T20:56:14.369+08:00 level=DEBUG msg=stream: buf="\x001\x05{\"Type\":2,\"Code\":403,\"Info\":\"group not existed\"}"
+time=2024-04-21T21:19:53.221+08:00 level=WARN msg="Read msg failed" detail=EOF addr=127.0.0.1:34000
+time=2024-04-21T21:19:53.222+08:00 level=DEBUG msg="user quit" user=alan
+time=2024-04-21T21:19:53.222+08:00 level=INFO msg="connection break" addr=127.0.0.1:34000 active=0
+time=2024-04-21T21:19:55.907+08:00 level=INFO msg="new connection" addr=127.0.0.1:47896 active=1
+time=2024-04-21T21:19:57.383+08:00 level=WARN msg="Read msg failed" detail=EOF addr=127.0.0.1:47896
+time=2024-04-21T21:19:57.383+08:00 level=DEBUG msg="user quit" user=""
+time=2024-04-21T21:19:57.384+08:00 level=INFO msg="connection break" addr=127.0.0.1:47896 active=0
+time=2024-04-21T21:21:53.362+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T21:21:57.358+08:00 level=INFO msg="new connection" addr=127.0.0.1:56326 active=1
+time=2024-04-21T21:22:08.839+08:00 level=DEBUG msg="control msg" user="" ctl_type=login Target=jack
+time=2024-04-21T21:22:08.839+08:00 level=DEBUG msg=stream: buf="\x00+\x05{\"Type\":2,\"Code\":403,\"Info\":\"login first\"}"
+time=2024-04-21T21:22:23.910+08:00 level=DEBUG msg="control msg" user="" ctl_type=d Target=a
+time=2024-04-21T21:22:23.911+08:00 level=DEBUG msg=stream: buf="\x00+\x05{\"Type\":2,\"Code\":403,\"Info\":\"login first\"}"
+time=2024-04-21T21:22:29.072+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T21:22:29.073+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T21:22:45.118+08:00 level=DEBUG msg="control msg" user=jack ctl_type=join_group Target=mygrp
+time=2024-04-21T21:22:45.119+08:00 level=DEBUG msg=stream: buf="jack join 2024-04-21 21:22:45\n"
+time=2024-04-21T21:22:45.120+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T21:24:33.776+08:00 level=WARN msg="Read msg failed" detail=EOF addr=127.0.0.1:56326
+time=2024-04-21T21:24:33.776+08:00 level=DEBUG msg="user quit" user=jack
+time=2024-04-21T21:24:33.776+08:00 level=INFO msg="connection break" addr=127.0.0.1:56326 active=0
+time=2024-04-21T21:25:30.368+08:00 level=INFO msg="new connection" addr=127.0.0.1:56062 active=1
+time=2024-04-21T21:25:36.454+08:00 level=INFO msg="login failed" user=alan
+time=2024-04-21T21:25:36.454+08:00 level=DEBUG msg=stream: buf="\x00,\x05{\"Type\":1,\"Code\":403,\"Info\":\"user existed\"}"
+time=2024-04-21T21:25:44.581+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T21:25:44.581+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T21:26:03.425+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrp
+time=2024-04-21T21:26:03.425+08:00 level=DEBUG msg=stream: buf="alan join 2024-04-21 21:26:03\n"
+time=2024-04-21T21:26:03.426+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T21:39:10.178+08:00 level=WARN msg="Read msg failed" detail=EOF addr=127.0.0.1:56062
+time=2024-04-21T21:39:10.178+08:00 level=DEBUG msg="user quit" user=alan
+time=2024-04-21T21:39:10.178+08:00 level=INFO msg="connection break" addr=127.0.0.1:56062 active=0
+time=2024-04-21T23:05:36.281+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T23:05:42.166+08:00 level=INFO msg="new connection" addr=127.0.0.1:32784 active=1
+time=2024-04-21T23:05:49.012+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T23:05:49.012+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:06:08.145+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrp
+time=2024-04-21T23:06:08.146+08:00 level=DEBUG msg=stream: buf="\x00B\x03{\"GroupName\":\"mygrp\",\"Content\":\"alan join 2024-04-21 23:06:08\\n\"}"
+time=2024-04-21T23:06:08.146+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:06:23.945+08:00 level=INFO msg="new connection" addr=127.0.0.1:52672 active=2
+time=2024-04-21T23:06:29.424+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T23:06:29.424+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:06:51.480+08:00 level=DEBUG msg="control msg" user=jack ctl_type=join_group Target=mygrp
+time=2024-04-21T23:06:51.481+08:00 level=DEBUG msg=stream: buf="\x00B\x03{\"GroupName\":\"mygrp\",\"Content\":\"jack join 2024-04-21 23:06:51\\n\"}"
+time=2024-04-21T23:06:51.481+08:00 level=DEBUG msg=stream: buf="\x00B\x03{\"GroupName\":\"mygrp\",\"Content\":\"jack join 2024-04-21 23:06:51\\n\"}"
+time=2024-04-21T23:06:51.481+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:07:50.742+08:00 level=DEBUG msg="grp msg" user=jack grp=mygrp content=hello
+time=2024-04-21T23:07:50.743+08:00 level=DEBUG msg="Group is not founded"
+time=2024-04-21T23:07:50.743+08:00 level=DEBUG msg=stream: buf="\x00:\x05{\"Type\":3,\"Code\":404,\"Info\":\"you haven't join the group\"}"
+time=2024-04-21T23:08:57.741+08:00 level=DEBUG msg="grp msg" user=alan grp=mygrp content=hi
+time=2024-04-21T23:08:57.742+08:00 level=DEBUG msg="Group is not founded"
+time=2024-04-21T23:08:57.742+08:00 level=DEBUG msg=stream: buf="\x00:\x05{\"Type\":3,\"Code\":404,\"Info\":\"you haven't join the group\"}"
+time=2024-04-21T23:12:20.911+08:00 level=INFO msg="server starting" addr=:9999
+time=2024-04-21T23:12:44.222+08:00 level=INFO msg="new connection" addr=127.0.0.1:58554 active=1
+time=2024-04-21T23:12:50.698+08:00 level=DEBUG msg="login success" user=alan
+time=2024-04-21T23:12:50.698+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:12:53.974+08:00 level=INFO msg="new connection" addr=127.0.0.1:39566 active=2
+time=2024-04-21T23:12:58.757+08:00 level=DEBUG msg="login success" user=jack
+time=2024-04-21T23:12:58.757+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":1,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:13:11.112+08:00 level=DEBUG msg="control msg" user=alan ctl_type=join_group Target=mygrp
+time=2024-04-21T23:13:11.113+08:00 level=DEBUG msg=stream: buf="\x00B\x03{\"GroupName\":\"mygrp\",\"Content\":\"alan join 2024-04-21 23:13:11\\n\"}"
+time=2024-04-21T23:13:11.113+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:13:23.515+08:00 level=DEBUG msg="control msg" user=jack ctl_type=join_group Target=mygrp
+time=2024-04-21T23:13:23.515+08:00 level=DEBUG msg=stream: buf="\x00B\x03{\"GroupName\":\"mygrp\",\"Content\":\"jack join 2024-04-21 23:13:23\\n\"}"
+time=2024-04-21T23:13:23.515+08:00 level=DEBUG msg=stream: buf="\x00B\x03{\"GroupName\":\"mygrp\",\"Content\":\"jack join 2024-04-21 23:13:23\\n\"}"
+time=2024-04-21T23:13:23.515+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":2,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:13:36.230+08:00 level=DEBUG msg="grp msg" user=alan grp=mygrp content=hi
+time=2024-04-21T23:13:36.231+08:00 level=DEBUG msg=stream: buf="\x00A\x03{\"GroupName\":\"mygrp\",\"Content\":\"alan 2024-04-21 23:13:36\\nhi\\n\"}"
+time=2024-04-21T23:13:36.231+08:00 level=DEBUG msg=stream: buf="\x00A\x03{\"GroupName\":\"mygrp\",\"Content\":\"alan 2024-04-21 23:13:36\\nhi\\n\"}"
+time=2024-04-21T23:13:36.231+08:00 level=DEBUG msg=stream: buf="\x00 \x05{\"Type\":3,\"Code\":200,\"Info\":\"\"}"
+time=2024-04-21T23:17:56.636+08:00 level=INFO msg="server starting" addr=:9999

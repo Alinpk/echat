@@ -38,6 +38,7 @@ type User struct {
 }
 
 func (u *User) Quit() {
+	log.L.Debug("user quit", "user", u.UserName)
 	u.CancelFunc() 
 	u.Conn.Close() // make receiver quit
 	if u.Certified {
@@ -46,6 +47,7 @@ func (u *User) Quit() {
 			g.QuitGroup(u)
 		}
 	}
+	u.Groups = map[string]*Group{}
 }
 
 // net.Conn's Read & Write operation can only happen in this func
@@ -149,8 +151,8 @@ func (u *User) Register(in *proto.RegisterMessage) {
 		u.Write(BuildResponse(proto.REGISTER, proto.FORBIDDEN, "logout first"))
 		return
 	}
-
-	ret, err := intf.RegisterUser(in.UserName, u.PassWord)
+	log.L.Debug("regist", "user", in.UserName, "pwd", in.PassWord)
+	ret, err := intf.RegisterUser(in.UserName, in.PassWord)
 	if err != nil {
 		log.L.Warn("register failed", "error", err.Error())
 		u.Write(BuildResponse(proto.REGISTER, proto.INTERNAL_ERR, ""))
@@ -197,6 +199,7 @@ func (u *User) Login(in *proto.LoginMessage) {
 }
 
 func (u *User) Control(in *proto.ControlMessage) {
+	log.L.Debug("control msg", "user", u.UserName, "ctl_type", in.Type, "Target", in.TargetName)
 	// only support before login
 	if !u.Certified {
 		u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "login first"))
@@ -236,6 +239,7 @@ func (u *User) Control(in *proto.ControlMessage) {
 		g = actual.(*Group)
 		if ok := g.AddUser(u); ok {
 			u.Write(BuildResponse(proto.CONTROL, proto.OK, ""))
+			u.Groups[in.TargetName] = g
 		} else {
 			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "group is full"))
 		}
@@ -244,9 +248,9 @@ func (u *User) Control(in *proto.ControlMessage) {
 		if !ok {
 			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "you are not in the group"))
 		} else {
-			delete(u.Groups, in.TargetName)
 			g.QuitGroup(u)
 			u.Write(BuildResponse(proto.CONTROL, proto.OK, "quit success"))
+			delete(u.Groups, in.TargetName)
 		}
 	}
 }
@@ -257,6 +261,7 @@ func (u *User) Group(in *proto.GroupMessage) {
 		u.Write(BuildResponse(proto.GROUP, proto.FORBIDDEN, "login first"))
 		return
 	}
+	log.L.Debug("grp msg", "user", u.UserName, "grp", in.GroupName, "content", in.Content)
 	g, ok := u.Groups[in.GroupName]
 	if !ok {
 		log.L.Debug("Group is not founded")
@@ -277,6 +282,20 @@ func BuildResponse(t proto.MsgType, code proto.RespCode, info string) []byte {
 		Code : code,
 		Info : info,
 	})
+	if err != nil {
+		log.L.Error("internal error", "error", err.Error())
+		// empty msg
+		return []byte{0, 0}
+	}
+	return ret
+}
+
+func BuildGroupMsg(grpName, content string) ([]byte) {
+	ret, err := proto.EncodeMsg(proto.GroupMessage{
+		GroupName : grpName,
+		Content : content,
+	})
+
 	if err != nil {
 		log.L.Error("internal error", "error", err.Error())
 		// empty msg
