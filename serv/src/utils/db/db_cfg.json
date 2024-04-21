@@ -1,0 +1,8 @@
+{
+    "addr" : "127.0.0.1:6379",
+    "max_idle" : 50,
+    "idle_timeout" : 10,
+    "max_active" : 100,
+    "protocol" : "tcp",
+    "db_id" : 15
+}

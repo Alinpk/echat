@@ -1,0 +1,6 @@
+{
+    "max_size" : 10485760,
+    "persist_sz" : 512,
+    "path" : "./test/test.log",
+    "persist_level" : "LevelDebug"
+}
