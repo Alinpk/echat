@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"time"
 	"unsafe"
+	"serv/utils/file"
 )
 
 // key = groupName, value = *Group
@@ -19,7 +20,19 @@ type Group struct {
 	sync.RWMutex
 	// TODO
 	// type History interface { io.Writer }
-	History []string
+	History *fileop.EFile
+}
+
+func NewGroup(name string) *Group {
+	fs, err := fileop.OpenEFile("./cache/" + name)
+	if err != nil {
+		panic(err)
+	}
+	return &Group{
+		Name : name,
+		UsersList : make([]*User, 0),
+		History : fs,
+	}
 }
 
 func (g *Group) SpeakInGroup(user, msg string) {
@@ -31,6 +44,7 @@ func (g *Group) SpeakInGroup(user, msg string) {
 		msg,
 		"\n",
 	}, "")
+	g.History.Write(GetSlice(gmsg))
 	g.Write(BuildGroupMsg(g.Name, gmsg))
 }
 
@@ -50,6 +64,7 @@ func (g *Group) QuitGroup(user *User) {
 		time.Now().Format("2006-01-02 15:04:05"),
 		"\n",
 	}, "")
+	g.History.Write(GetSlice(gmsg))
 	g.Write(BuildGroupMsg(g.Name, gmsg))
 }
 
@@ -76,7 +91,7 @@ func (g *Group) AddUser(user *User) bool {
 			time.Now().Format("2006-01-02 15:04:05"),
 			"\n",
 		}, "")
-		
+		g.History.Write(GetSlice(gmsg))
 		g.Write(BuildGroupMsg(g.Name, gmsg))
 		return true
 	}

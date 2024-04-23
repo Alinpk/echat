@@ -229,11 +229,7 @@ func (u *User) Control(in *proto.ControlMessage) {
 			u.Write(BuildResponse(proto.CONTROL, proto.FORBIDDEN, "group not existed"))
 			return
 		}
-		g := &Group{
-			Name : in.TargetName,
-			UsersList : make([]*User, 0),
-			History : make([]string, 0),
-		}
+		g := NewGroup(in.TargetName)
 		actual, _ := Groups.LoadOrStore(in.TargetName, g)
 		
 		g = actual.(*Group)
