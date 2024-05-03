@@ -1,24 +1,24 @@
 package fileop
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
-	"fmt"
 )
 
 var MaxSize int64 = 500 * 1024 * 1024 // 500m
-var MaxBufferSz = 1024 * 5 // 5k
+var MaxBufferSz = 1024 * 5            // 5k
 
 type EFile struct {
 	// this is not strictly
-	MaxSize int64 // file size
-	MaxBufferSz int // how many strings can buffer store
+	MaxSize     int64 // file size
+	MaxBufferSz int   // how many strings can buffer store
 
 	buffer []byte
-	Name string // fileName
-	Dir  string // where to persist
+	Name   string // fileName
+	Dir    string // where to persist
 
 	fs *os.File
 	ch chan ([]byte)
@@ -42,17 +42,19 @@ func OpenEFile(path string) (ef *EFile, err error) {
 
 	var fs *os.File
 	fs, err = OpenFile(filepath.Join(dir, name))
-	if err != nil { return }
-	ef =  &EFile{
-		MaxSize : MaxSize,
-		MaxBufferSz : MaxBufferSz,
+	if err != nil {
+		return
+	}
+	ef = &EFile{
+		MaxSize:     MaxSize,
+		MaxBufferSz: MaxBufferSz,
 
-		buffer : make([]byte, 0, MaxBufferSz),
-		Name : name,
-		Dir  : dir,
+		buffer: make([]byte, 0, MaxBufferSz),
+		Name:   name,
+		Dir:    dir,
 
-		fs   : fs,
-		ch   : make(chan ([]byte), 10), // maybe can base in some param
+		fs: fs,
+		ch: make(chan ([]byte), 10), // maybe can base in some param
 	}
 
 	go ef.Recv()
@@ -63,7 +65,8 @@ func (ef *EFile) Write(buf []byte) (n int, err error) {
 	defer func() {
 		// maybe close
 		if r := recover(); r != nil {
-			n = 0; err = fmt.Errorf("%v", r)
+			n = 0
+			err = fmt.Errorf("%v", r)
 		}
 	}()
 	ef.ch <- buf
@@ -73,7 +76,9 @@ func (ef *EFile) Write(buf []byte) (n int, err error) {
 func (ef *EFile) Recv() {
 	for bytes := range ef.ch {
 		ef.buffer = append(ef.buffer, bytes...)
-		if len(ef.buffer) < ef.MaxBufferSz { continue }
+		if len(ef.buffer) < ef.MaxBufferSz {
+			continue
+		}
 
 		old := ef.buffer
 		ef.buffer = make([]byte, 0, MaxBufferSz)
@@ -92,9 +97,11 @@ func (ef *EFile) Persist(buf []byte) {
 		}
 	}()
 	// for situation: recvNormal->close->persistNormal->recvClose->persistClose
-	if ef.fs == nil { return }
+	if ef.fs == nil {
+		return
+	}
 	for len(buf) != 0 {
-		n, err :=  ef.fs.Write(buf)
+		n, err := ef.fs.Write(buf)
 		if err != nil {
 			panic(err)
 		}
@@ -111,8 +118,10 @@ func (ef *EFile) Persist(buf []byte) {
 
 	// file is too large, rename file and open a new one
 	ef.fs.Close()
-	if ef.isClosed { return }
-	
+	if ef.isClosed {
+		return
+	}
+
 	name := ef.Name + "." + time.Now().Format("20060102150405")
 	oldname := filepath.Join(ef.Dir, ef.Name)
 	newname := filepath.Join(ef.Dir, name)

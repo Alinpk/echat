@@ -1,0 +1,14 @@
+2024-05-03 21:07:58.201::::::ERROR:::<nil>:::24:::net_tools.go.137 tools.SendRequest:::url.Parse err parse ":41555/create_task": missing protocol scheme
+
+2024-05-03 21:08:08.201::::::ERROR:::141569d8-14ad-4a93-8060-d392b606f5e8:::24:::net_tools.go.137 tools.SendRequest:::url.Parse err parse ":41555/create_task": missing protocol scheme
+
+2024-05-03 21:16:53.17::::::ERROR:::<nil>:::11:::net_tools.go.139 tools.SendRequest:::url.Parse err parse ":41555/create_task": missing protocol scheme
+
+2024-05-03 21:18:45.184::::::ERROR:::<nil>:::24:::net_tools.go.137 tools.SendRequest:::url.Parse err parse ":41555/create_task": missing protocol scheme
+
+2024-05-03 21:19:46.506::::::ERROR:::<nil>:::11:::net_tools.go.137 tools.SendRequest:::url.Parse err parse ":41555/create_task": missing protocol scheme
+
+2024-05-03 21:21:22.909::::::ERROR:::<nil>:::40:::net_tools.go.137 tools.SendRequest:::url.Parse err parse "127.0.0.1:41555/create_task": first path segment in URL cannot contain colon
+
+2024-05-03 21:39:51.364::::::ERROR:::09541567-c9f8-4de7-8fc9-4b8c00d8397c:::35:::net_tools.go.189 tools.SendRequest:::Client.Do err Post "http://127.0.0.1:41555/create_task": dial tcp 127.0.0.1:41555: connect: connection refused
+
